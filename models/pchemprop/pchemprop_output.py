@@ -3,7 +3,8 @@ from django.views.decorators.http import require_POST
 
 @require_POST
 def pchempropOutputPage(request):
-    import pchemprop_model
+    return "test"
+#    import pchemprop_model
 
     # chem_name = request.POST.get('chemical_name')
     # use = request.POST.get('Use')

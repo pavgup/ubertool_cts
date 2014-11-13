@@ -5,6 +5,7 @@ from django.conf.urls import patterns, include, url
 
 # The previous urlpatterns is using views as a prefix breaking the use of django apps 
 urlpatterns = patterns('',
+    url(r'^chemaxon_cts/', include('chemaxon_cts.urls')),  # Pavan added this to include the test suite django app
     url(r'^test_cts/', include('test_cts.urls'))  # Pavan added this to include the test suite django app
 )
 

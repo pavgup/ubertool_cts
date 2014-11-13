@@ -20,5 +20,6 @@ def simple_proxy(request,path):
 def index(request,model):
   return render(request, 'test_cts/index')
 
-def calc_kow(request):
-  return render(request, 'calc_kow.html')
+# calling the calc_gen url will simply rooute you over to the calc_gen template
+def calc_gen(request):
+  return render(request, 'test_cts/calc_gen')

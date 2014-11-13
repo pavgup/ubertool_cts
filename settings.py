@@ -66,11 +66,13 @@ INSTALLED_APPS = (
     # 'docs'
     'filters',
     # 'templatetags.my_filter'
-    'test_cts' # Pavan added this for the TEST suite CTS app.  Not to be confused with any other test software.
+    'test_cts', # Pavan added this for the TEST suite CTS app.  Not to be confused with any other test software.
+    'chemaxon_cts' # Pavan added this for the ChemAxon CTS endpoints.
 )
 
 # This breaks the pattern of a "pluggable" TEST_CTS django app, but it also makes it convenient to describe the server hosting the TEST API.
 TEST_CTS_PROXY_URL = "http://10.0.2.2:7080/"
+CHEMAXON_CTS_PROXY_URL = "http://pnnl.cloudapp.net/webservices/"
 
 MIDDLEWARE_CLASSES = (
     # 'django.contrib.sessions.middleware.SessionMiddleware',

@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from test_cts import views
+from chemaxon_cts import views
 
 ### If you have not set the TEST_CTS_PROXY_URL variable in settings.py, you're going to be sad.  Here's an example setting you should insert:
 #   (in the project's settings.py, you'd add) TEST_CTS_PROXY_URL = "http://10.0.2.2:7080/TEST/"
@@ -10,5 +10,5 @@ from test_cts import views
 urlpatterns = patterns('',
     url(r'^api/(?P<path>.*)$', views.simple_proxy),
     url(r'^(?P<model>.*?)/table/?$', views.index, name='index'),
-    url(r'^calc_gen/$', views.calc_gen)
+    url(r'^calc-kow/$', views.calc_kow)
 )
