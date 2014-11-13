@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.template import Context, Template
 import datetime
 from django.template.loader import render_to_string
@@ -96,3 +97,17 @@ def timestamp(pchemprop_obj="", batch_jid=""):
     html = html + """
     </div>"""
     return html
+=======
+import numpy
+from django.template import Context, Template
+from django.utils.safestring import mark_safe
+import logging
+import time
+import datetime
+
+logger = logging.getLogger("SipTables")
+
+def tables_all(request):
+    if request.method == 'POST':
+        print 'Hello'
+>>>>>>> pavan

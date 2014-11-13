@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Toxicity Estimation Software Tool</title>
+<!-- Latest compiled and minified CSS -->
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/css/bootstrap-select.min.css">
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
+
+  </head>
+  <body>
+
+<form class="form-horizontal width=50%">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Toxicity Estimation Software Tool</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="smiles">SMILES String or CAS ID</label>  
+  <div class="col-md-6">
+  <input id="smiles" name="smiles" type="text" placeholder="Give me a SMILES String or CAS ID" class="form-control input-md" required="">
+  <span class="help-block">Something really helpful might be valuable right here.</span>  
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="method">Method</label>
+  <div class="col-md-6">
+    <select id="method" name="method" class="form-control">
+      <option value="Consensus">Consensus</option>
+      <option value="Hierarchical">Hierarchical</option>
+      <option value="FDA">FDA</option>
+      <option value="Single model">Single model</option>
+      <option value="Group contribution">Group contribution</option>
+      <option value="Nearest neighbor">Nearest neighbor</option>
+      <option value="Random forest">Random forest</option>
+    </select>
+  </div>
+</div>
+
+<!-- Select Multiple -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="endpoints">Tox Endpoints</label>
+  <div class="col-md-6">
+    <select id="toxpicker" name="endpoints" class="selectpicker show-tick form-control" multiple="multiple">
+      <option value="96 hour fathead minnow LC50">96 hour fathead minnow LC50</option>
+      <option value="48 hour D. magna LC50">48 hour D. magna LC50</option>
+      <option value="48 hour T. pyriformis IGC50">48 hour T. pyriformis IGC50</option>
+      <option value="Oral rat LD50">Oral rat LD50</option>
+      <option value="Bioaccumulation factor">Bioaccumulation factor</option>
+      <option value="Developmental toxicity">Developmental toxicity</option>
+      <option value="Ames mutagenicity">Ames mutagenicity</option>
+    </select>
+  </div>
+</div>
+
+<!-- Select Multiple -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="phsyicalproperties">Physical Properties</label>
+  <div class="col-md-6">
+    <select id="phsyicalproperties" name="phsyicalproperties" class="form-control" multiple="multiple">
+      <option value="Normal boiling point">Normal boiling point</option>
+      <option value="Vapor pressure">Vapor pressure</option>
+      <option value="Melting point">Melting point</option>
+      <option value="Flash point">Flash point</option>
+      <option value="Density">Density</option>
+      <option value="Surface tension">Surface tension</option>
+      <option value="Thermal conductivity">Thermal conductivity</option>
+      <option value="Viscosity">Viscosity</option>
+      <option value="Water solubility">Water solubility</option>
+    </select>
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Calculate">Calculate</label>
+  <div class="col-md-8">
+    <button id="Calculate" name="Calculate" class="btn btn-success">Calculate</button>
+    <button id="Reset" name="Reset" class="btn btn-danger">Reset</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+  <script>
+    $(document).ready(function () {
+      $('.selectpicker').selectpicker();
+    });
+  </script>
+
+</body>
+</html>

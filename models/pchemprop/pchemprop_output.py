@@ -4,7 +4,8 @@ import logging
 
 @require_POST
 def pchempropOutputPage(request):
-    import pchemprop_model
+    return "test"
+#    import pchemprop_model
 
     chemStruct = request.POST.get('chem_struct')
     meltingPoint = request.POST.get('melting_point')
