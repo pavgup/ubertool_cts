@@ -14,6 +14,7 @@ from REST import jchem_rest
 import logging
 from django.http import HttpRequest 
 import chemspec_tables
+from models.gentrans import data_walks
 
 
 class chemspec(object):
@@ -185,15 +186,9 @@ def getPkaInfo(output_val):
 		pkaDict.update({'mostBasicPka': pkaRoot['mostBasic']})
 		pkaDict.update({'mostAcidicPka': pkaRoot['mostAcidic']})
 
-		# parentDict = {'image': pkaRoot['result']['image']['imageUrl']}
-		parentDict = getStructInfo(pkaRoot['result']['structureData']['structure'])
-		logging.warning(parentDict)
-
-		imgRequest = HttpRequest()
-		imgRequest.POST = {'smiles':parentDict['smiles'], 'height':192, 'width':150}
-		response = jchem_rest.smilesToImage(imgRequest)
-		response = json.loads(response.content)
-		parentDict.update({'image':response['data'][0]['image']['imageUrl']})
+		parentDict = {'image': pkaRoot['result']['image']['imageUrl']}
+		parentDict.update(getStructInfo(pkaRoot['result']['structureData']['structure']))
+		# logging.warning(parentDict)
 
 		pkaDict.update({'parent': parentDict})
 		# pkaDict.update({'parent': pkaRoot['result']['image']['imageUrl']})
@@ -216,7 +211,9 @@ def getPkaInfo(output_val):
 			# get microspecies distribution data for plotting
 			microDist = pkaRoot['chartData']
 
-			microDistData = []		
+			# microDistData = []	
+			microDistData = {}
+			inc = 0	
 			for ms in microDist:
 				valuesList = [] # format: [[ph1,con1], [ph2, con2], ...] per ms
 				for vals in ms['values']:
@@ -225,8 +222,11 @@ def getPkaInfo(output_val):
 					xy.append(vals['concentration'])
 					valuesList.append(xy)
 
-				# microDistData.update({ms['key'] : valuesList})
-				microDistData.append(valuesList)
+				# microDistData.update({msImageUrlList[inc]['iupac'] : valuesList})
+				microDistData.update({ms['key'] : valuesList})
+				msImageUrlList[inc].update({"key":ms['key']})
+				inc += 1
+				# microDistData.append(valuesList)
 
 			pkaDict.update({'microDistData': microDistData})
 
@@ -235,49 +235,54 @@ def getPkaInfo(output_val):
 
 def getStereoInfo(output_val):
 
-	stereoDict = {'stereoImageUrl': [None]} # Initialize dict for stereoisomer image url
+	stereoDict = {'image': [None]} # Initialize dict for stereoisomer image url
 
 	stereoValues = output_val['data'][0]['stereoisomer']
 
 	if 'result' in stereoValues:
 		if 'image' in stereoValues['result']:
-			stereoDict['stereoImageUrl'] = [stereoValues['result']['image']['imageUrl']]
+			stereoDict['image'] = stereoValues['result']['image']['imageUrl']
+		structInfo = getStructInfo(stereoValues['result']['structureData']['structure'])
+		stereoDict.update(structInfo)
 
 	return stereoDict
 
 
 def getTautInfo(output_val):
 
-	tautDict = {'tautImageUrl': [None]}
+	tautDict = {'tautStructs': [None]}
 	tautValues = output_val['data'][0]['tautomerization']
 
 	if 'result' in tautValues:
+		imageList = [] # list of dicts, where dict is molecule's image, smiles, mass, etc.
 		for taut in tautValues['result']:
-			tautDict['tautImageUrl'] = [taut['image']['imageUrl']] #append to list
+			tautStructDict = {}
+			tautStructDict.update({"image": taut['image']['imageUrl']}) #append to list
+			structInfo = getStructInfo(taut['structureData']['structure'])
+			tautStructDict.update(structInfo)
+			imageList.append(tautStructDict)
+
+		tautDict.update({'tautStructs': imageList})
 
 	return tautDict
 
 
-"""
-Appends structure info to image url 
-Input: .mrv format structure
-Output: dict with structure's info (i.e., formula, iupac, mass, smiles)
-"""
 def getStructInfo(mrvData):
+	"""
+	Appends structure info to image url 
+	Input: .mrv format structure
+	Output: dict with structure's info (i.e., formula, iupac, mass, smiles)
+	"""
 
 	request = HttpRequest()
 	request.POST = {"chemical": mrvData}
 	response = jchem_rest.mrvToSmiles(request)
 	smilesDict = json.loads(response.content)
 
-	logging.warning(smilesDict)
-
 	request = HttpRequest()
 	request.POST = {"chemical": smilesDict["structure"]}
 	response = jchem_rest.getChemDeats(request)
 	structDict = json.loads(response.content)
-
-	logging.warning(response.content)
 
 	infoDict = {} # dict to be returned
 	struct_root = {} # root of data in structInfo
