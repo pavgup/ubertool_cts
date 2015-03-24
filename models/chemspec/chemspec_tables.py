@@ -224,6 +224,11 @@ def getIsoPtResults(chemspec_obj):
         ip = tblData['Isoelectric Point']
         # html += tmpl.render(Context(dict(data=tblData)))
 
+        logging.info(chemspec_obj.isoPtDict['isoPtChartData'])
+        fileout = open('C:\\Documents and Settings\\npope\\Desktop\\out.txt', 'w')
+        fileout.write(json.dumps(chemspec_obj.isoPtDict['isoPtChartData']))
+        fileout.close()
+
         # isoelectric point plot:
         if 'isoPtChartData' in chemspec_obj.isoPtDict:
             html += '<div id="isoPtData" class="hideData">'
